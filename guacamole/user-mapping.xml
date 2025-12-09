@@ -13,8 +13,11 @@
             <param name="width">1280</param>
             <param name="height">720</param>
             <param name="dpi">96</param>
+            <param name="server-layout">en-us-qwerty</param>
+            <param name="enable-drive">true</param>
+            <param name="drive-path">/tmp</param>
+            <param name="create-drive-path">true</param>
         </connection>
-        
         <connection name="VDI Desktop 2">
             <protocol>rdp</protocol>
             <param name="hostname">vdi-desktop-2</param>
@@ -26,6 +29,10 @@
             <param name="width">1280</param>
             <param name="height">720</param>
             <param name="dpi">96</param>
+            <param name="server-layout">en-us-qwerty</param>
+            <param name="enable-drive">true</param>
+            <param name="drive-path">/tmp</param>
+            <param name="create-drive-path">true</param>
         </connection>
     </authorize>
 </user-mapping>

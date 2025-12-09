@@ -1,20 +1,13 @@
 version: '3.8'
 
-x-project-config: &project-config
-  PROJECT_NAME: vdi-system
-  VDI_NETWORK: vdi-network
-  GUACAMOLE_PORT: 8080
-
 services:
   # Guacamole шлюз
   guacamole:
     image: guacamole/guacamole:latest
     container_name: guacamole
     depends_on:
-      guacd:
-        condition: service_started
-      mysql:
-        condition: service_healthy
+      - guacd
+      - mysql
     environment:
       GUACD_HOSTNAME: guacd
       MYSQL_HOSTNAME: mysql
@@ -51,21 +44,21 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     restart: unless-stopped
     networks:
       - vdi-network
 
-  # Динамическое создание рабочих столов
-  desktop-base:
-    build:
-      context: .
-      dockerfile: dockerfiles/Dockerfile.xfce-desktop
+  # Рабочие столы (БЕЗ проброса портов наружу!)
+  desktop-1:
     image: vdi-desktop
+    container_name: vdi-desktop-1
+    restart: unless-stopped
+    networks:
+      - vdi-network
+
+  desktop-2:
+    image: vdi-desktop
+    container_name: vdi-desktop-2
     restart: unless-stopped
     networks:
       - vdi-network

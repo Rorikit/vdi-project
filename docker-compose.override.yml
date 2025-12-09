@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  # Динамическое создание рабочих столов
+  desktop-1:
+    extends:
+      service: desktop-base
+    container_name: vdi-desktop-1
+
+  desktop-2:
+    extends:
+      service: desktop-base
+    container_name: vdi-desktop-2
