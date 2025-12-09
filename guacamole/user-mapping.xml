@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user-mapping>
+    <!-- Администратор -->
+    <authorize username="admin" password="admin">
+        <connection name="VDI Desktop 1">
+            <protocol>rdp</protocol>
+            <param name="hostname">vdi-desktop-1</param>
+            <param name="port">3389</param>
+            <param name="username">student</param>
+            <param name="password">student123</param>
+            <param name="ignore-cert">true</param>
+            <param name="security">any</param>
+            <param name="width">1280</param>
+            <param name="height">720</param>
+            <param name="dpi">96</param>
+        </connection>
+        
+        <connection name="VDI Desktop 2">
+            <protocol>rdp</protocol>
+            <param name="hostname">vdi-desktop-2</param>
+            <param name="port">3389</param>
+            <param name="username">student</param>
+            <param name="password">student123</param>
+            <param name="ignore-cert">true</param>
+            <param name="security">any</param>
+            <param name="width">1280</param>
+            <param name="height">720</param>
+            <param name="dpi">96</param>
+        </connection>
+    </authorize>
+</user-mapping>

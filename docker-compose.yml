@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Guacamole шлюз
+  guacamole:
+    image: guacamole/guacamole:latest
+    container_name: guacamole
+    depends_on:
+      - guacd
+      - mysql
+    environment:
+      GUACD_HOSTNAME: guacd
+      MYSQL_HOSTNAME: mysql
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: guacamole_password
+      GUACAMOLE_HOME: /config
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./guacamole/config:/config
+      - ./guacamole/extensions:/config/extensions
+      - ./guacamole/user-mapping.xml:/config/user-mapping.xml:ro
+    restart: unless-stopped
+    networks:
+      - vdi-network
+
+  guacd:
+    image: guacamole/guacd:latest
+    container_name: guacd
+    restart: unless-stopped
+    networks:
+      - vdi-network
+
+  # MySQL для Guacamole
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: guacamole_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    networks:
+      - vdi-network
+
+  # Рабочие столы (БЕЗ проброса портов наружу!)
+  desktop-1:
+    image: vdi-desktop
+    container_name: vdi-desktop-1
+    restart: unless-stopped
+    networks:
+      - vdi-network
+
+  desktop-2:
+    image: vdi-desktop
+    container_name: vdi-desktop-2
+    restart: unless-stopped
+    networks:
+      - vdi-network
+
+networks:
+  vdi-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

@@ -1,0 +1,41 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Установка XFCE4 и XRDP
+RUN apt update && apt install -y \
+    xfce4 \
+    xfce4-goodies \
+    xrdp \
+    dbus-x11 \
+    x11-xserver-utils \
+    firefox \
+    nano \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Создаем пользователя
+RUN useradd -m -s /bin/bash student && \
+    echo "student:student123" | chpasswd && \
+    usermod -aG sudo student && \
+    echo "student ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Настройка XRDP
+RUN sed -i 's/port=3389/port=3389/g' /etc/xrdp/xrdp.ini && \
+    echo "startxfce4" > /home/student/.xsession && \
+    chown student:student /home/student/.xsession && \
+    mkdir -p /var/run/xrdp && \
+    chmod 2775 /var/run/xrdp && \
+    mkdir -p /var/run/xrdp/sockdir && \
+    chmod 3777 /var/run/xrdp/sockdir
+
+# Копируем скрипт запуска
+RUN echo '#!/bin/bash\n\
+service dbus start\n\
+/usr/sbin/xrdp --nodaemon\n' > /start.sh && chmod +x /start.sh
+
+# Экспорт порта RDP
+EXPOSE 3389
+
+# Запуск
+CMD ["/bin/bash", "/start.sh"]
