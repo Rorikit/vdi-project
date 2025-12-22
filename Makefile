@@ -1,7 +1,7 @@
 .PHONY: help build up down restart logs clean init rebuild deploy status
 
 help: ## Показать это сообщение
-	@echo "Доступные команды:"
+	@echo "Доступные команды: (1)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 init: ## Инициализация проекта (первый запуск)

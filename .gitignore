@@ -1,0 +1,48 @@
+# Docker
+docker-compose.yml.save
+*.save
+*.bak
+*.backup
+
+# Временные файлы
+*.tmp
+*.temp
+*~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи и данные
+logs/
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Docker volumes
+volumes/
+
+# Backup файлы
+backup/
+*.old
+
+# Системные
+.DS_Store
+Thumbs.db
+
+# Guacamole runtime
+guacamole/config/
+!guacamole/config/user-mapping.xml
+!guacamole/config/guacamole.properties
+
+# Базы данных
+*.db
+*.sqlite
+
+# Docker
+.dockerignore
